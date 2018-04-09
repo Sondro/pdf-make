@@ -1,7 +1,16 @@
+//const HtmlWebpackPlugin = require('html-webpack-plugin')
+//const webpack = require('webpack')
 var path = require('path');
 var StringReplacePlugin = require("string-replace-webpack-plugin");
 
-
+const config = {
+  target: 'web',
+  entry: './index.html',
+  watch: true,
+  output: {
+    path: path.resolve(__dirname, './),
+    filename: 'index.js'
+  },
 module.exports = {
 	entry: './src/browser-extensions/pdfMake.js',
 	output: {

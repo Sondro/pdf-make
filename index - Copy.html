@@ -1,0 +1,34 @@
+<!doctype html>
+ <html lang='en'>
+ <head>
+ 	<meta charset='utf-8'>
+ 	<title>my first pdfmake example</title>
+	<script src='./build/pdfmake.js'></script>
+	<script src='./build/vfs_fonts.js'></script>
+	<script type='module' src='./examples/import.js'></script>
+ </head>
+<body>
+
+<script type='text/javascript'>
+
+console.log('asdf');
+//console.log('dd: ' + docDefinition);
+//console.log('fonts: ' + fonts);
+
+var dd2 = { content: 'This is an sample PDF printed with pdfMake' };
+
+try { pdfMake.createPdf(dd2).open(); }
+catch(err){ console.log('PDF failed to open.') };
+
+/*
+try { pdfMake.createPdf(docDefinition).open(); }
+catch(err){ console.log('PDF failed to open.') };
+*/
+
+ //pdfMake.createPdf(docDefinition).download('optionalName.pdf');
+</script>
+
+</body>
+</html>
+
+

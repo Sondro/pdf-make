@@ -2,58 +2,137 @@
  <html lang='en'>
  <head>
  	<meta charset='utf-8'>
- 	<title>my first pdfmake example</title>
+ 	<title>PDF</title>
 	<script src='./build/pdfmake.js'></script>
 	<script src='./build/vfs_fonts.js'></script>
 	<script type='module' src='./examples/import.js'></script>
  </head>
 <body>
-  <input type="button" onMouseDown="goPDF('open', dd2)"target="_blank" value="Open PDF"></input>
-  <input type="button" onMouseDown="goPDF('download', dd2)"target="_blank" value="Download PDF"></input>
-  <input type="button" onMouseDown="goPDF('print', dd2)" target="_blank" value="Print PDF"></input>
+    <input type="button" onMouseDown="goPDF('open', dd2)" id='button' target="_self" value="Open PDF"></input>
+    <input type="button" onMouseDown="goPDF('download', dd2, 'bingocards.pdf')" target="_self" value="Download PDF"></input>
+    <input type="button" onMouseDown="goPDF('print', dd2)" target="_self" value="Print PDF"></input>
+    <input type="button" onMouseDown="goPDF('preview', dd2)" id='button' target="_self" value="Preview PDF"></input>
+  
+  <div style="width:100px; height:8px;"></div>
+  <div id="pdfDiv"></div>
 
+  <script type='text/javascript'>
+    //console.log('dd: ' + docDefinition);
+    //console.log('fonts: ' + fonts);
+    //let dd2 = { content: 'This is an sample PDF printed with pdfMake' };
 
-<script type='text/javascript'>
-//console.log('dd: ' + docDefinition);
-//console.log('fonts: ' + fonts);
-//var dd2 = { content: 'This is an sample PDF printed with pdfMake' };
+    let dd2 = {
+      info: {
+        title: 'Bingo Cards',
+        },
+        pageMargins: [8, 8, 10.5, 10.5],
+      content: [
+        {alignment: 'center',
+          table: {
+            headerRows: 1,
+            widths: [ '*', '*', '*', '*', '*' ],
+            margin: [0, 0, 0, 0, 0],
+            heights: [64, 16, 124, 124, 124 ,124, 124],
+            body: [ 
+              [ { text: 'B', bold: true, style: 'top', fontSize: 64,  }, { text: 'I', bold: true, style: 'top', fontSize: 64}, { text: 'N', bold: true, style: 'top', fontSize: 64}, { text: 'G', bold: true, style: 'top', fontSize: 64}, { text: 'O', bold: true, style: 'top', fontSize: 64} ],
+              [ {text: ' ', colSpan: 5, fillColor: '#000000',}, ],
+              [ '\n\n\n\n 012345678910', 'Value 2', 'Value 3', 'Value 4', 'Value 5' ],
+              [ 'Value 1', 'Value 2', 'Value 3', 'Value 4', 'Value 5' ],
+              [ 'Value 1', 'Value 2', { text: '\n\n ( FREE )', bold: true, alignment: 'center', fontSize: 22, color: '#800000',}, 'Value 4', 'Value 5' ],
+              [ 'Value 1', 'Value 2', 'Value 3', 'Value 4', 'Value 5' ],
+              [ 'Value 1', 'Value 2', 'Value 3', 'Value 4', 'Value 5' ]
+            ]
+          },
+          layout: {
+            hLineWidth: function (i, node) {
+              return (i === 0 || i === node.table.body.length) ? 16 : 1;
+            },
+            vLineWidth: function (i, node) {
+              return (i === 0 || i === node.table.widths.length) ? 8 : 1;
+            },
+            hLineColor: function (i, node) {
+              //return (i === 0 || i === node.table.body.length) ? 'black' : 'black';
+            },
+            vLineColor: function (i, node) {
+              //return (i === 0 || i === node.table.widths.length) ? 'black' : 'black';
+            },
+          },
+        }
+      ],
+      
+      styles: {
+        top: {
+          alignment: 'center',
+          color: '#ffffff', 
+          fillColor: '#000000'
+        },
+        sub: {
+          fontSize: 32,
+          bold: true,
 
-var dd2 = {
-  content: [
-    {
-      table: {
-        headerRows: 1,
-        widths: [ '*', 'auto', 100, '*', 'auto' ],
+        },
+        fill: {
+          fillColor: '#000000',
+        },
+        quote: {
+          italics: true
+        },
+        small: {
+          fontSize: 8
+        }
+      }
+    };
 
-        body: [
-          [ { text: 'B', bold: true }, 'I', 'N', 'G', '0' ],
-          [ 'Value 1', 'Value 2', 'Value 3', 'Value 4', '' ],
-          [ 'Val 2', 'Val 3', 'Val 4', '', '' ]
-        ]
+    let pdf00 = pdfMake.createPdf(dd2, pdfMake.fonts, pdfMake.vfs);
+    
+    //NOT NECESARY ONLY USEFUL FOR ME IN CASE YOU ARE WORKING WITH SENCHA
+    /* var form = this.getView();
+    var cont = form.down('#docContainer'),
+    width = cont.getWidth(),
+    height = cont.getHeight();*/
+    
+    //let pdf01 = pdf00.getBase64();
+    let pdf01 = pdf00;
+    let data = '';
+    let width = '100%';
+    let height = '1080';
+
+    pdf01.getBase64((data) => { 
+      document.getElementById('pdfDiv').innerHTML = '<object width="' + 
+      width + '" height="' + height + '" data="data:application/pdf;base64,' + data + '"></object>';
+    });
+    //console.log(data);
+    //GETTING THE BASE64 AND SETTING IT TO A CONTAINER FOR PREVIEW
+    /*
+    pdf01.getBase64((data) => { 
+      form.down('#docContainer').setHtml('<object width="' + 
+      width + '" height="' + height + '" data="data:application/pdf;base64,' + data + '"></object>');
+    });
+*/
+    //[data="data:application/pdf;base64,] =  specifies data type Base64
+
+    function goPDF(str = 'open', dd = docDefinition, PDFname = 'doc.pdf') { 
+      switch(str) {
+        case 'open':
+          try { //pdfMake.createPdf(dd, pdfMake.fonts, pdfMake.vfs).open({}, window); 
+          pdf00.open({}, window);}
+          catch(err){ console.log('PDF failed to open.') };
+          break;
+        case 'download':
+          try { pdfMake.createPdf(dd).download(PDFname); }
+          catch(err){ console.log('PDF failed to download.') };
+          break;
+        case 'print':
+          try { pdf00.print({}, window); }
+          catch(err){ console.log('PDF failed to print.') };
+          break;
+        case 'preview':
+          try { console.log(data); }
+          catch(err){ console.log('PDF failed to preview.') };
+          break;
       }
     }
-  ]
-};
-
-function goPDF(str = 'open', dd = docDefinition, PDFname = 'new.pdf') { 
-  switch(str) {
-    case 'open':
-      try { pdfMake.createPdf(dd, pdfMake.fonts, pdfMake.vfs).open(); }
-      catch(err){ console.log('PDF open failed.') };
-      break;
-    case 'download':
-      try { pdfMake.createPdf(dd).download(PDFname); }
-      catch(err){ console.log('PDF download failed.') };
-      break;
-    case 'print':
-      try { pdfMake.createPdf(dd).print(); }
-      catch(err){ console.log('PDF print failed.') };
-      break;
-  }
-}
-
-</script>
-
+  </script>
 </body>
 </html>
 
