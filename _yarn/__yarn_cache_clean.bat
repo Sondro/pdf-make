@@ -1,3 +1,0 @@
-yarn cache clean
-
-@pause
