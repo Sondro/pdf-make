@@ -2,31 +2,56 @@
  <html lang="en">
  <head>
  	<meta charset="utf-8">
- 	<title>PDF</title>
-	<script src="./build/pdfmake.js"></script>
+    <title>PDF</title>
+  <link rel="stylesheet" type="text/css" src="./dat/pdf_bingo.css"></script>
+  <script src="./build/json5@^1.0.0.js"></script>
+	<script src="./build/pdfmake.min.js"></script>
   <script src="./build/vfs_fonts.js"></script>
-  <script type="module" src="./examples/import.js"></script>
-  <script src="https://unpkg.com/json5@^1.0.0"></script>
   <script src="./build/jscolor.min.js"></script>
-  <script src="./bingoCards.js"></script>
+  <script src="./dat/bingoCards.js"></script>
+  <script src="./dat/card/bingoDat.js"></script>
  </head>
-<body style="overflow-y:hidden; margin:0px; padding:4px;" bgcolor="484848">
-    <button class="jscolor {valueElement:'#000000', onFineChange:'update(this, false)'}" value="000000" style="width:100px;">Color</button>
-    <input type="button" onMouseDown="toggleEdit()" id="editPDF_btn" value="Edit" style="width:100px; background-color:white;"></input>
-    <input type="button" onMouseDown="goPDF('download', dd2, 'bingocards.pdf')" target="_self" value="Download" style="width:100px; background-color:white"></input>
-  <div style="width:100px; height:8px;"></div>
-  <textarea id="editArea" cols="108" rows="32" style="resize:vertical; word-break:break-all; overflow-y:scroll; position:absolute; z-index:100; top:78px; left:20px; opacity:0.75; filter:alpha(opacity=75); display:none;">0-99</textarea>
-
-  <div id="PDFdiv"></div>
-
+ <body style ="overflow-y:hidden; margin:0px; padding:4px; background-color:#484848;">
+    <div style=" background-color:#484848;" >
+        <input id="dd00_MAIN" type="button" onMouseDown="dropDown('dd00_MAIN')" value="#0-99" style="width:100px; background-color:white"></input>
+        <div id="dd00_div"style="max-width:150px; position:absolute; left:4px; top:26px; z-index:100; display:none;">
+            <input id="dd00_Bridal" type="button" onMouseDown="dropDown('dd00_Bridal')"onMouseOver="cssBgColor('dd00_Bridal', '#a9aaa5')" onMouseOut="cssBgColor('dd00_Bridal', '#5b5b5b')" value="Bridal" style="width:100px; background-color:#5b5b5b; color:white;"></input>
+            <input id="dd00_Horror" type="button" onMouseDown="dropDown('dd00_Horror')"onMouseOver="cssBgColor('dd00_Horror', '#a9aaa5')" onMouseOut="cssBgColor('dd00_Horror', '#5b5b5b')" value="Horror" style="width:100px; background-color:#5b5b5b; color:white;"></input>
+            <input id="dd00_#0-65" type="button" onMouseDown="dropDown('dd00_#0-65')"onMouseOver="cssBgColor('dd00_#0-65', '#a9aaa5')" onMouseOut="cssBgColor('dd00_#0-65', '#5b5b5b')" value="#0-65" style="width:100px; background-color:#5b5b5b; color:white;"></input>
+            <input id="dd00_#0-99" type="button" onMouseDown="dropDown('dd00_#0-99')"onMouseOver="cssBgColor('dd00_#0-99', '#a9aaa5')" onMouseOut="cssBgColor('dd00_#0-99', '#5b5b5b')" value="#0-99" style="width:100px; background-color:#5b5b5b; color:white; display:none;"></input>
+            <input id="dd00_#0-300" type="button" onMouseDown="dropDown('dd00_#0-300')"onMouseOver="cssBgColor('dd00_#0-300', '#a9aaa5')" onMouseOut="cssBgColor('dd00_#0-300', '#5b5b5b')" value="#0-300" style="width:100px; background-color:#5b5b5b; color:white;"></input>
+            <input id="dd00_#0-500" type="button" onMouseDown="dropDown('dd00_#0-500')"onMouseOver="cssBgColor('dd00_#0-500', '#a9aaa5')" onMouseOut="cssBgColor('dd00_#0-500', '#5b5b5b')" value="#0-500" style="width:100px; background-color:#5b5b5b; color:white;"></input>
+            <input id="dd00_#0-999" type="button" onMouseDown="dropDown('dd00_#0-999')"onMouseOver="cssBgColor('dd00_#0-999', '#a9aaa5')" onMouseOut="cssBgColor('dd00_#0-999', '#5b5b5b')" value="#0-999" style="width:100px; background-color:#5b5b5b; color:white;"></input>
+        </div>
+        <button id = "jscolor_btn" class="jscolor {valueElement:'000000', onFineChange:'update(this, false)'}" value="000000" style="width:100px">Color</button>
+        <input type="button" onMouseDown="toggleEdit()" id="editPDF_btn" value="Text" style="width:100px; background-color:white;"></input>
+        <input type="button" onMouseDown="goPDF('download', dd2, 'bingocards.pdf')" value="Download" style="width:100px; background-color:white"></input>
+      <div style="width:100px; height:8px;"></div>
+      <textarea id="editArea" cols="108" rows="32" style="resize:vertical; word-break:break-all; overflow-y:scroll; position:absolute; z-index:100; top:78px; left:20px; opacity:0.75; filter:alpha(opacity=75); display:none;">#0-99</textarea>
+      <div id="PDFdiv"></div>
+    </div>
   <script type="text/javascript">
     //<iframe id="PDFiframe" style="width:100%; height:1080px"></iframe>
     //console.log('dd: ' + docDefinition);
     //console.log('fonts: ' + fonts);
     //let dd2 = { content: 'This is an sample PDF printed with pdfMake' };
-    let init = false;
 
+    /*
+     <div style="max-width:150px; position:absolute; left:316px; top:26px; z-index:100;">
+     <input type="button" onMouseDown="" value="5x5 Bridal" style="width:100px; background-color:white"></input>
+     <input type="button" onMouseDown="" value="5x5 Horror Films" style="width:100px; background-color:white"></input>
+     <input type="button" onMouseDown="" value="5x5 #0-300" style="width:100px; background-color:white"></input>
+     <input type="button" onMouseDown="" value="5x5 #0-500" style="width:100px; background-color:white"></input>
+    </div>
+    */
+
+    let init = false;
     let curCard = new BingoCard();
+
+    function cssBgColor(id, color) {
+      document.getElementById(id).style.backgroundColor = color;
+    }
+
     function pad(num, len) {
       let str = num + "";
       for (; str.length < len; ) {
@@ -36,7 +61,7 @@
     }
 
     function toggleDisplay(id) {
-      if(document.getElementById(id).style.display === 'inline') {
+      if(document.getElementById(id).style.display !== 'none') {
         document.getElementById(id).style.display = 'none';
       } else {
         document.getElementById(id).style.display = 'inline';
@@ -53,7 +78,7 @@
 
     function toggleEdit() {
       toggleDisplay('editArea'); 
-      document.getElementById('editPDF_btn').value = toggleVal(document.getElementById('editPDF_btn').value, 'Edit', 'View'); 
+      document.getElementById('editPDF_btn').value = toggleVal(document.getElementById('editPDF_btn').value, 'Text', 'View'); 
     }
 
     function checkText(id, old, delay) {
@@ -70,11 +95,53 @@
   
     setTimeout(function () { checkText('editArea', document.getElementById('editArea').value, 50); }, 200);
 
+    function parseNumVal(cmdStr) {
+      cmdStr = cmdStr.slice(1, cmdStr.len);
+      let arrCmd = cmdStr.split('-');
+      //if(isNaN(parseInt(arrCmd[0])) !== true && isNaN(parseInt(arrCmd[1])) !== true) {
+        curCard.valMin = parseInt(arrCmd[0]);
+        curCard.valMax = parseInt(arrCmd[1]);
+        curCard.isNum = true;
+        update(null, true);
+      //}
+    }
+
+    function parseStrVal(cmdStr) {
+      //.split('/\r\n|\n|\r/')
+      arrDat = eval(`dat_${cmdStr}`).split('\n');
+      curCard.valMax = arrDat.length;
+      curCard.valMin = 0;
+      curCard.isNum = false;
+      update(null, true);
+    }
+
+    function dropDown(cmdStr) {
+      let arrCmd = cmdStr.split('_');
+      if(arrCmd[1] !== 'MAIN') {
+        // hide the selection clicked
+        toggleDisplay(`${arrCmd[0]}_${arrCmd[1]}`);
+        // activate (display) MAIN label below
+        toggleDisplay(`${arrCmd[0]}_${document.getElementById(`${arrCmd[0]}_MAIN`).value}`);
+        // set the new MAIN label
+        document.getElementById(`${arrCmd[0]}_MAIN`).value = arrCmd[1];
+        
+       if(arrCmd[1][0] !== '#') {
+         parseStrVal(arrCmd[1]);
+         } else {
+          parseNumVal(cmdStr);
+        }
+      }
+      // toggle dropdown
+      toggleDisplay(`${arrCmd[0]}_div`);
+    }
+
+
    let docArr = [];
     
 //\\n\\n   
 //\\n\\n\\n\\n
 
+/*
 let dd = {
   info: {
     title: "Bingo Cards",
@@ -134,6 +201,7 @@ let dd = {
     }
   }
 };
+*/
 
   function arrJSON(arr) {
    let i = 0;
@@ -161,7 +229,7 @@ let dd = {
   //dd = '{\n' + dd.replace(/(\r?)\n/g, '\n').replace(/(^)/gm, '\t') + '\n}';
   //alert(dd);
 
- // let dx = `{info:{title:'Bingo Cards',author:'Bangarang Bingo',subject:'',keywords:''},pageOrientation:'portrait',pageSize:'A4',pageMargins:[8,8,10.5,10.5],content:[{alignment:'center',background:'',content:[],table:{headerRows:1,widths:['*','*','*','*','*'],margin:[0,0,0,0],heights:[64,16,124,124,124,124,124],body:[[{text:'B',bold:true,style:'top',fontSize:64},{text:'I',bold:true,style:'top',fontSize:64},{text:'N',bold:true,style:'top',fontSize:64},{text:'G',bold:true,style:'top',fontSize:64},{text:'O',bold:true,style:'top',fontSize:64}],[{text:' ',colSpan:5,fillColor:'` + curCard.fillColor + `'}],['\\n\\n\\n\\n012345678910','Value 2','Value 3','Value 4','Value 5'],['Value 1','Value 2','Value 3','Value 4','Value 5'],['Value 1','Value 2',{text:'\\n\\n( FREE )',bold:true,fontSize:22,color:'#800000'},'Value 4','Value 5'],['Value 1','Value 2','Value 3','Value 4','Value 5'],['Value 1','Value 2','Value 3','Value 4','Value 5']]},layout:{}}],styles:{top:{alignment:'center',color:'#ffffff',fillColor:'` + curCard.fillColor + `'},sub:{fontSize:32,bold:true},fill:{fillColor:'` + curCard.fillColor + `'},quote:{italics:true},small:{fontSize:8}}}`;
+ // let dx = `{info:{title:'Bingo Cards',author:'Bangarang Bingo',subject:'',keywords:''},pageOrientation:'portrait',pageSize:'A4',pageMargins:[8,8,10.5,10.5],content:[{alignment:'center',background:'',content:[],table:{headerRows:1,widths:['*','*','*','*','*'],margin:[0,0,0,0],heights:[64,16,124,124,124,124,124],body:[[{text:'B',bold:true,style:'top',fontSize:64},{text:'I',bold:true,style:'top',fontSize:64},{text:'N',bold:true,style:'top',fontSize:64},{text:'G',bold:true,style:'top',fontSize:64},{text:'O',bold:true,style:'top',fontSize:64}],[{text:' ',colSpan:5,fillColor:'${curCard.fillColor}'}],['\\n\\n\\n\\n012345678910','Value 2','Value 3','Value 4','Value 5'],['Value 1','Value 2','Value 3','Value 4','Value 5'],['Value 1','Value 2',{text:'\\n\\n( FREE )',bold:true,fontSize:22,color:'#800000'},'Value 4','Value 5'],['Value 1','Value 2','Value 3','Value 4','Value 5'],['Value 1','Value 2','Value 3','Value 4','Value 5']]},layout:{}}],styles:{top:{alignment:'center',color:'#ffffff',fillColor:'${curCard.fillColor}'},sub:{fontSize:32,bold:true},fill:{fillColor:'${curCard.fillColor}'},quote:{italics:true},small:{fontSize:8}}}`;
  // let dd2 = JSON5.parse(dx);
 
 //  let pdf00 = pdfMake.createPdf(dd2, pdfMake.fonts, pdfMake.vfs);
@@ -171,6 +239,7 @@ let dd = {
   let pdf00;
   
   let data = '';
+  let preData = 'data:application/pdf;base64,';
   let width = '100%';
   let height = '1920';
   let imgWidth = '';
@@ -183,39 +252,51 @@ let dd = {
   function update(color, updateText) {
     //console.log('color: ' + color);
 
-    if(updateText) {
-       //let val = document.getElementById('editArea').value.split['\n'];
-       //val = val[0].split(`-`);
-       curCard = genCells(curCard);
 
-      }
-
-
+      /*
+    if(!init) {
+      document.getElementById('jscolor_btn').style.backgroundColor = '#000000';
+      init = true;
+    }
+    */
     if(color !== curCard.fillColor && color !== null) {
       curCard.fillColor = '#' + color;
     //  setTimeout(toggleDisplay());
     }
 
+    if(updateText) {
+      //let val = document.getElementById('editArea').value.split['\n'];
+      //val = val[0].split(`-`);
+      curCard = genCells(curCard);
+      if(!curCard.isNum) {
+        document.getElementById('editArea').value = curCard.deckStr;
+      }
+     }
+     
+
 //pageMargins:[8,8,10.5,10.5],
     dx00 = `{info:{title:'Bingo Cards',author:'Bangarang Bingo',subject:'',keywords:''},pageOrientation:'portrait',pageSize:'A4',content:[`;
 
-    dx01 = `{alignment:'center',background:'',content:[],table:{headerRows:1,widths:['*','*','*','*','*'],margin:[0,0,0,0],heights:[64,16,124,124,124,124,124],body:[[{text:'B',bold:true,style:'top',fontSize:64},{text:'I',bold:true,style:'top',fontSize:64},{text:'N',bold:true,style:'top',fontSize:64},{text:'G',bold:true,style:'top',fontSize:64},{text:'O',bold:true,style:'top',fontSize:64}],[{text:' ',colSpan:5,fillColor:'` + curCard.fillColor + `'}],['` + curCard.cellDat[0] + `','` + curCard.cellDat[1] + `','` + curCard.cellDat[2] + `','` + curCard.cellDat[3] + `','` + curCard.cellDat[4] + `'],['` + curCard.cellDat[5] + `','` + curCard.cellDat[6] + `','` + curCard.cellDat[7] + `','` + curCard.cellDat[8] + `','` + curCard.cellDat[9] + `'],['` + curCard.cellDat[10] + `','` + curCard.cellDat[11] + `',{text:'\\n\\n` + curCard.freeStr + `',bold:true,fontSize:` + curCard.freeFontSize + `,color:'` + curCard.freeFontColor + `'},'` + curCard.cellDat[13] + `','` + curCard.cellDat[14] + `'],['` + curCard.cellDat[15] + `','` + curCard.cellDat[16] + `','` + curCard.cellDat[17] + `','` + curCard.cellDat[18] + `','` + curCard.cellDat[19] + `'],['` + curCard.cellDat[20] + `','` + curCard.cellDat[21] + `','` + curCard.cellDat[22] + `','` + curCard.cellDat[23] + `','` + curCard.cellDat[24] + `',]]}`;
+    dx01 = `{alignment:'center',background:'',content:[],table:{headerRows:1,widths:['*','*','*','*','*'],margin:[0,0,0,0],heights:[64,16,124,124,124,124,124],body:[[{text:'B',bold:true,style:'top',fontSize:64},{text:'I',bold:true,style:'top',fontSize:64},{text:'N',bold:true,style:'top',fontSize:64},{text:'G',bold:true,style:'top',fontSize:64},{text:'O',bold:true,style:'top',fontSize:64}],[{text:' ',colSpan:5,fillColor:'${curCard.fillColor}'}],['${curCard.cellDat[0]}','${curCard.cellDat[1]}','${curCard.cellDat[2]}','${curCard.cellDat[3]}','${curCard.cellDat[4]}'],['${curCard.cellDat[5]}','${curCard.cellDat[6]}','${curCard.cellDat[7]}','${curCard.cellDat[8]}','${curCard.cellDat[9]}'],['${curCard.cellDat[10]}','${curCard.cellDat[11]}',{text:'\\n\\n${curCard.freeStr}',bold:true,fontSize:${curCard.freeFontSize},color:'${curCard.freeFontColor}'},'${curCard.cellDat[13]}','${curCard.cellDat[14]}'],['${curCard.cellDat[15]}','${curCard.cellDat[16]}','${curCard.cellDat[17]}','${curCard.cellDat[18]}','${curCard.cellDat[19]}'],['${curCard.cellDat[20]}','${curCard.cellDat[21]}','${curCard.cellDat[22]}','${curCard.cellDat[23]}','${curCard.cellDat[24]}',]]}`;
     
-    dx02 = `,pageBreak: "after",layout:{hLineColor:'` + curCard.fillColor + `', vLineColor:'` + curCard.fillColor + `'}}],styles:{top:{alignment:'center',color:'#ffffff',fillColor:'` + curCard.fillColor + `'},sub:{fontSize:32,bold:true},fill:{fillColor:'` + curCard.fillColor + `'},quote:{italics:true},small:{fontSize:8}}}`;
+    dx02 = `,pageBreak: "after",layout:{hLineColor:'${curCard.fillColor}', vLineColor:'${curCard.fillColor}'}}],styles:{top:{alignment:'center',color:'#ffffff',fillColor:'${curCard.fillColor}'},sub:{fontSize:32,bold:true},fill:{fillColor:'${curCard.fillColor}'},quote:{italics:true},small:{fontSize:8}}}`;
     
-    dx = dx00 + dx01 + dx02;
+    dx = `${dx00}${dx01}${dx02}`;
 
     dd2 = JSON5.parse(dx);
   
     pdf00 = pdfMake.createPdf(dd2, pdfMake.fonts, pdfMake.vfs);
 
     pdf00.getBase64((data) => { 
-      document.getElementById('PDFdiv').innerHTML = '<object width="' + 
-      width + '" height="' + height + '" data="data:application/pdf;base64,' + data + '"></object>';
+      //data = preData + data;
+      //document.getElementById('PDFobj').data = `data:application/pdf;base64, ${data}`;
+      //document.getElementById('PDFobj').data = preData + data;
+      document.getElementById('PDFdiv').innerHTML = `<object id="PDFobj" width="${width}" height="${height}" data="data:application/pdf;base64, ${data}"></object>`;
     });
   }
 
   update(null, true);
+  
 
 /*
     pdf00.getBase64((data) => { 

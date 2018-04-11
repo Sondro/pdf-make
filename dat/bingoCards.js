@@ -4,7 +4,7 @@ const BingoCard = function(tmpValMin,tmpValMax,tmpNumRows,tmpNumCols) {
 	
 	this.init = false;
 	this.isPad0 = true;
-	this.isNum = false;
+	this.isNum = true;
 	this.isCenterImg = false;
 	this.freeStr = '( FREE )';
   this.isCenterFree = true;
@@ -55,9 +55,10 @@ const BingoCard = function(tmpValMin,tmpValMax,tmpNumRows,tmpNumCols) {
 	
 };
 
+	function initVals() {
+	}
+
 function genCells(tmpCurCard) {
-  //let tmpCurCard = curCard00;
-  //let tmpCurCard = xCurCard;
 	if(!this.init) {
 		this.init = true;
 	}
@@ -75,10 +76,19 @@ function genCells(tmpCurCard) {
 		
 	for(; cycles < finish ;) {		
 		if(cardMax != tmpCurCard.numCenter - 1) {
+			if(tmpCurCard.isNum) {
 				tmpCurCard.cellStr = Math.round(Math.random() * tmpCurCard.valMax);  		
 			if(tmpCurCard.isPad0) {
 					tmpCurCard.cellStr = pad(tmpCurCard.cellStr, cardMax.len);
 				}
+				tmpCurCard.deckStr += tmpCurCard.cellStr;
+			} else {
+				tmpCurCard.cellStr = arrDat[Math.floor(Math.random() * tmpCurCard.valMax)];
+				tmpCurCard.deckStr += tmpCurCard.cellStr;
+				if(cycles !== cardMax - 1) {
+					tmpCurCard.deckStr += '\n';
+				}
+			}
 		} else {
 			tmpCurCard.cellStr = tmpCurCard.freeStr;
 		}
@@ -96,12 +106,11 @@ function genCells(tmpCurCard) {
     ++cardMax;
 		if(cardMax > tmpCurCard.numCells) {
 			cardMax = 1;
-    }
+		}
     cycles++;
   }
   return tmpCurCard;
 }
 
 //curCard = genCells(curCard);
-
 //console.log(curCard.deckStr);
