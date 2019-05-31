@@ -1704,9 +1704,9 @@ concat-stream@^1.6.0, concat-stream@~1.6.0:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
-concat-with-sourcemaps@*:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/concat-with-sourcemaps/-/concat-with-sourcemaps-1.0.5.tgz#8964bc2347d05819b63798104d87d6e001bed8d0"
+concat-with-sourcemaps@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/concat-with-sourcemaps/-/concat-with-sourcemaps-1.1.0.tgz#d4ea93f05ae25790951b99e7b3b09e3908a4082e"
   dependencies:
     source-map "^0.6.1"
 
@@ -3284,12 +3284,13 @@ gulp-file-contents-to-json@0.2.2:
     nconf "~0.6.9"
     through2 "~0.6.1"
 
-gulp-header@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/gulp-header/-/gulp-header-2.0.5.tgz#16e229c73593ade301168024fea68dab75d9d38c"
+gulp-header@2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/gulp-header/-/gulp-header-2.0.7.tgz#07505740eb432e8d2bb2af68744858dabaaf491b"
   dependencies:
-    concat-with-sourcemaps "*"
+    concat-with-sourcemaps "^1.1.0"
     lodash.template "^4.4.0"
+    map-stream "0.0.7"
     through2 "^2.0.0"
 
 gulp-rename@1.4.0:
@@ -4682,6 +4683,10 @@ map-obj@^1.0.0:
 map-obj@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-2.0.0.tgz#a65cd29087a92598b8791257a523e021222ac1f9"
+
+map-stream@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/map-stream/-/map-stream-0.0.7.tgz#8a1f07896d82b10926bd3744a2420009f88974a8"
 
 map-visit@^1.0.0:
   version "1.0.0"
