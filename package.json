@@ -36,7 +36,7 @@
     "webpack-cli": "2.0.14",
     "webpack-dev-server": "3.2.1",
     "webpack-serve": "0.3.2",
-    "webpack-stream": "4.0.3"
+    "webpack-stream": "5.2.1"
   },
   "scripts": {
     "build": "gulp build",
