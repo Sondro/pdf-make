@@ -3679,11 +3679,11 @@ gulp-sourcemaps@2.6.5:
     strip-bom-string "1.X"
     through2 "2.X"
 
-gulp-spawn-mocha@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/gulp-spawn-mocha/-/gulp-spawn-mocha-5.0.1.tgz#9f16a2a2e0df1aae7b9af0aa9321c2b0057139c9"
+gulp-spawn-mocha@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/gulp-spawn-mocha/-/gulp-spawn-mocha-6.0.0.tgz#d840232cc1065a85ee8c2f3f38c6a695d25b5ecf"
   dependencies:
-    lodash "^4.11.1"
+    lodash "^4.17.14"
     plugin-error "^1.0.1"
     through "~2.3.4"
 
@@ -4994,13 +4994,17 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "~3.0.0"
 
-lodash@^4.11.1, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
+lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
 lodash@^4.17.11:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+
+lodash@^4.17.14:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
 
 log-symbols@^1.0.2:
   version "1.0.2"
