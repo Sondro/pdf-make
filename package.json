@@ -26,7 +26,7 @@
     "gulp-sourcemaps": "2.6.5",
     "gulp-spawn-mocha": "6.0.0",
     "gulp-uglify": "3.0.2",
-    "mocha": "7.1.1",
+    "mocha": "7.1.2",
     "plugin-error": "1.0.1",
     "rewire": "5.0.0",
     "sinon": "9.0.2",
