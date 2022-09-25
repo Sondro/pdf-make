@@ -35,7 +35,7 @@
     "webpack": "5.21.2",
     "webpack-cli": "4.4.0",
     "webpack-dev-server": "3.11.2",
-    "webpack-serve": "0.3.2",
+    "webpack-serve": "4.0.0",
     "webpack-stream": "6.1.2"
   },
   "scripts": {
