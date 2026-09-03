@@ -20,7 +20,7 @@
     "gulp-each": "0.5.0",
     "gulp-eslint": "6.0.0",
     "gulp-file-contents-to-json": "0.2.2",
-    "gulp-header": "2.0.9",
+    "gulp-header": "2.0.12",
     "gulp-rename": "2.0.0",
     "gulp-replace": "0.6.1",
     "gulp-sourcemaps": "3.0.0",
